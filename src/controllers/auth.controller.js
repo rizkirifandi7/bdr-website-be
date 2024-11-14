@@ -58,6 +58,7 @@ const Register = async (req, res) => {
 const Login = async (req, res) => {
 	try {
 		const { email, password } = req.body;
+
 		const user = await User.findOne({
 			where: { email },
 		});
@@ -76,9 +77,13 @@ const Login = async (req, res) => {
 			});
 		}
 
-		const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-			expiresIn: "6h",
-		});
+		const token = jwt.sign(
+			{ id: user.id, nama: user.nama, role: user.role },
+			process.env.JWT_SECRET,
+			{
+				expiresIn: "6h",
+			}
+		);
 
 		res.status(200).json({
 			status: true,
@@ -93,7 +98,22 @@ const Login = async (req, res) => {
 	}
 };
 
+const Logout = async (req, res) => {
+	try {
+		res.status(200).json({
+			status: true,
+			message: "Logout berhasil",
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+			status: false,
+		});
+	}
+};
+
 module.exports = {
 	Register,
 	Login,
+	Logout,
 };

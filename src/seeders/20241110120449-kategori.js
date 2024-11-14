@@ -10,22 +10,22 @@ module.exports = {
 				updatedAt: new Date(),
 			},
 			{
+				nama_kategori: "Mie Yamin",
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+			{
+				nama_kategori: "Mie Yamientiaw",
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+			{
 				nama_kategori: "Mie Ayam",
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			},
 			{
-				nama_kategori: "Mie Pangsit",
-				createdAt: new Date(),
-				updatedAt: new Date(),
-			},
-			{
-				nama_kategori: "Mie Goreng",
-				createdAt: new Date(),
-				updatedAt: new Date(),
-			},
-			{
-				nama_kategori: "Mie Kuah",
+				nama_kategori: "Minuman",
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			},

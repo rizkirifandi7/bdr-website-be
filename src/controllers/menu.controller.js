@@ -37,6 +37,10 @@ const getMenuById = async (req, res) => {
 
 		const menu = await Menu.findOne({
 			where: { id },
+			include: {
+				association: "kategori",
+				attributes: ["nama_kategori"],
+			},
 		});
 
 		if (!menu) {
@@ -46,10 +50,15 @@ const getMenuById = async (req, res) => {
 			});
 		}
 
+		const menuData = {
+			...menu.dataValues,
+			kategori: menu.kategori.nama_kategori,
+		};
+
 		res.status(200).json({
 			status: true,
 			message: "Data menu berhasil didapatkan",
-			data: menu,
+			data: menuData,
 		});
 	} catch (error) {
 		res.status(500).json({

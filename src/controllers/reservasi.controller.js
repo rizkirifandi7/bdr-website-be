@@ -50,6 +50,8 @@ const createReservasi = async (req, res) => {
 		const { nama_pelanggan, kontak, tanggal_reservasi, jumlah_orang } =
 			req.body;
 
+			console.log(req.body);
+
 		const reservasi = await Reservasi.create({
 			nama_pelanggan,
 			kontak,

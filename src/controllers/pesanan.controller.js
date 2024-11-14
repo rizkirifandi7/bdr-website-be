@@ -1,4 +1,14 @@
 const { Pesanan, Item_Pesanan, Menu, Kategori } = require("../models");
+const Midtrans = require("midtrans-client");
+
+const dotenv = require("dotenv");
+dotenv.config();
+
+let snap = new Midtrans.Snap({
+	isProduction: false,
+	serverKey: "SB-Mid-server-XtUQ01boSYVoSDCqueb62Ol_",
+	clientKey: "SB-Mid-client-PkQyNqBpQWvcUAom",
+});
 
 const getPesanan = async (req, res) => {
 	try {
@@ -90,17 +100,14 @@ const createPesanan = async (req, res) => {
 	try {
 		const { id_meja, mode, total, items } = req.body;
 
-		console.log("itemss ", items);
-
 		const pesanan = await Pesanan.create({
 			id_meja,
 			mode,
 			total,
 			order_time: Date.now(),
-			status: "pending",
+			status: "completed",
 		});
 
-		// Tambah Item Pesanan
 		const itemsToCreate = items.map((item) => ({
 			...item,
 			id_pesanan: pesanan.id,
@@ -111,10 +118,36 @@ const createPesanan = async (req, res) => {
 
 		await Item_Pesanan.bulkCreate(itemsToCreate);
 
+		let parameter = {
+			transaction_details: {
+				order_id: `ORD-${pesanan.id}`,
+				gross_amount: total,
+			},
+			credit_card: {
+				secure: true,
+			},
+			item_details: items.map((item) => ({
+				id: item.id_menu,
+				price: item.harga,
+				quantity: item.quantity,
+				name: item.nama,
+			})),
+			callbacks: {
+				finish: `${process.env.BASE_URL}/order/order-detail/${pesanan.id}`,
+				unfinish: `${process.env.BASE_URL}/order/mode`,
+				error: `${
+					process.env.BASE_URL
+				}/api/pesanan/${`ORD-${pesanan.id}`}/error`,
+			},
+		};
+
+		const snapToken = await snap.createTransaction(parameter);
+
 		res.status(201).json({
 			status: true,
 			message: "Pesanan berhasil ditambahkan",
 			data: pesanan,
+			token: snapToken.token,
 		});
 	} catch (error) {
 		console.log("error", error);
@@ -188,6 +221,9 @@ const deletePesanan = async (req, res) => {
 		});
 	}
 };
+
+
+
 
 module.exports = {
 	getPesanan,
