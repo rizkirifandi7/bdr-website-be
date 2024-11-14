@@ -47,10 +47,11 @@ const getMejaById = async (req, res) => {
 
 const createMeja = async (req, res) => {
 	try {
-		const { nomor_meja } = req.body;
+		const { nomor_meja, qr_url } = req.body;
 
 		const meja = await Meja.create({
 			nomor_meja,
+			qr_url,
 		});
 
 		res.status(201).json({
@@ -69,7 +70,7 @@ const createMeja = async (req, res) => {
 const updateMeja = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { nomor_meja } = req.body;
+		const { nomor_meja, qr_url } = req.body;
 
 		const meja = await Meja.findOne({
 			where: { id },
@@ -83,6 +84,7 @@ const updateMeja = async (req, res) => {
 		}
 
 		meja.nomor_meja = nomor_meja;
+		meja.qr_url = qr_url;
 		await meja.save();
 
 		res.status(200).json({

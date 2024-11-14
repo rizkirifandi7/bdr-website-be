@@ -100,12 +100,14 @@ const createPesanan = async (req, res) => {
 	try {
 		const { id_meja, mode, total, items } = req.body;
 
+		const status = mode === "Dine In" ? "completed" : "pending";
+
 		const pesanan = await Pesanan.create({
 			id_meja,
 			mode,
 			total,
 			order_time: Date.now(),
-			status: "completed",
+			status: status,
 		});
 
 		const itemsToCreate = items.map((item) => ({
@@ -221,9 +223,6 @@ const deletePesanan = async (req, res) => {
 		});
 	}
 };
-
-
-
 
 module.exports = {
 	getPesanan,
