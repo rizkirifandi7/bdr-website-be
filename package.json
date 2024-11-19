@@ -10,6 +10,7 @@
 		"migrate": "npx sequelize-cli db:migrate",
 		"undo:migrate": "npx sequelize-cli db:migrate:undo:all",
 		"seed": "npx sequelize-cli db:seed:all",
+		"undo:seed": "npx sequelize-cli db:seed:undo:all",
 		"build": "babel src -d public"
 	},
 	"keywords": [],
@@ -21,6 +22,7 @@
 		"body-parser": "^1.20.3",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
+		"crypto": "^1.0.1",
 		"dotenv": "^16.4.5",
 		"express": "^4.21.1",
 		"firebase-admin": "^12.7.0",

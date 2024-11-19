@@ -21,11 +21,13 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Pesanan.init(
 		{
+			nama_pelanggan: DataTypes.STRING,
+			code_payment: DataTypes.STRING,
 			id_meja: DataTypes.INTEGER,
 			order_time: DataTypes.DATE,
 			total: DataTypes.INTEGER,
 			mode: DataTypes.ENUM("Dine In", "Pick Up", "Delivery"),
-			status: DataTypes.ENUM("pending", "completed", "canceled"),
+			status: DataTypes.ENUM("pending", "preparing", "completed", "canceled"),
 		},
 		{
 			sequelize,

@@ -11,17 +11,28 @@ module.exports = {
 					primaryKey: true,
 					type: Sequelize.INTEGER,
 				},
+				nama_pelanggan: {
+					type: Sequelize.STRING,
+				},
 				id_meja: {
 					type: Sequelize.INTEGER,
+				},
+				code_payment: {
+					type: Sequelize.STRING,
 				},
 				order_time: {
 					type: Sequelize.DATE,
 				},
 				status: {
-					type: Sequelize.ENUM("pending", "completed", "canceled"),
+					type: Sequelize.ENUM(
+						"pending",
+						"preparing",
+						"completed",
+						"canceled"
+					),
 				},
 				mode: {
-					type: Sequelize.ENUM("Dine In", "Pick Up", "Delivery"),
+					type: Sequelize.ENUM("Dine In", "Take Away", "Delivery"),
 				},
 				total: {
 					type: Sequelize.BIGINT,
