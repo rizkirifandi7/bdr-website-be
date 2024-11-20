@@ -198,6 +198,7 @@ const createPesanan = async (req, res) => {
 			code_payment,
 			nama_pelanggan,
 			status,
+			catatan,
 		} = req.body;
 
 		const pesanan = await Pesanan.create({
@@ -208,6 +209,7 @@ const createPesanan = async (req, res) => {
 			total,
 			order_time: Date.now(),
 			status: status || "pending",
+			catatan,
 		});
 
 		const itemsToCreate = items.map((item) => ({

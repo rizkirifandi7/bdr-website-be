@@ -24,18 +24,16 @@ module.exports = {
 					type: Sequelize.DATE,
 				},
 				status: {
-					type: Sequelize.ENUM(
-						"pending",
-						"preparing",
-						"completed",
-						"canceled"
-					),
+					type: Sequelize.ENUM("pending", "preparing", "completed", "canceled"),
 				},
 				mode: {
 					type: Sequelize.ENUM("Dine In", "Take Away", "Delivery"),
 				},
 				total: {
 					type: Sequelize.BIGINT,
+				},
+				catatan: {
+					type: Sequelize.TEXT,
 				},
 				createdAt: {
 					allowNull: false,

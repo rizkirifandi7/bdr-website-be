@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 			total: DataTypes.INTEGER,
 			mode: DataTypes.ENUM("Dine In", "Pick Up", "Delivery"),
 			status: DataTypes.ENUM("pending", "preparing", "completed", "canceled"),
+			catatan: DataTypes.TEXT,
 		},
 		{
 			sequelize,
