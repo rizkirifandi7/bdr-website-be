@@ -1,13 +1,29 @@
-const { Feedback } = require("../models");
+const { Feedback, Pesanan } = require("../models");
 
 const getFeedback = async (req, res) => {
 	try {
-		const feedback = await Feedback.findAll();
+		const feedback = await Feedback.findAll({
+			include: [
+				{
+					model: Pesanan,
+					as: "pesanan",
+					attributes: ["nama_pelanggan"],
+				},
+			],
+		});
+
+		const feedbackWithCustomerName = feedback.map((fb) => {
+			const { pesanan, ...feedbackData } = fb.toJSON();
+			return {
+				...feedbackData,
+				nama_pelanggan: pesanan ? pesanan.nama_pelanggan : null,
+			};
+		});
 
 		res.status(200).json({
 			status: true,
 			message: "Data feedback berhasil didapatkan",
-			data: feedback,
+			data: feedbackWithCustomerName,
 		});
 	} catch (error) {
 		res.status(500).json({
