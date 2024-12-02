@@ -12,18 +12,13 @@ module.exports = (sequelize, DataTypes) => {
 				as: "item_pesanan",
 				foreignKey: "id_pesanan",
 			});
-
-			Pesanan.belongsTo(models.Meja, {
-				as: "meja",
-				foreignKey: "id_meja",
-			});
 		}
 	}
 	Pesanan.init(
 		{
 			nama_pelanggan: DataTypes.STRING,
 			code_payment: DataTypes.STRING,
-			id_meja: DataTypes.INTEGER,
+			tipe_payment: DataTypes.ENUM("Cash", "Transfer"),
 			order_time: DataTypes.DATE,
 			total: DataTypes.INTEGER,
 			mode: DataTypes.ENUM("Dine In", "Pick Up", "Delivery"),

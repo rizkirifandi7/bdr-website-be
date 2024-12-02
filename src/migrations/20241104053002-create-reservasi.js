@@ -14,15 +14,21 @@ module.exports = {
 				nama_pelanggan: {
 					type: Sequelize.STRING,
 				},
-        kontak: {
-          type: Sequelize.STRING,
-        },
-        tanggal_reservasi: {
-          type: Sequelize.DATE,
-        },
-        jumlah_orang: {
-          type: Sequelize.INTEGER,
-        },
+				kontak: {
+					type: Sequelize.STRING,
+				},
+				tanggal_reservasi: {
+					type: Sequelize.DATE,
+				},
+				jumlah_orang: {
+					type: Sequelize.INTEGER,
+				},
+				ruangan: {
+					type: Sequelize.STRING,
+				},
+				catatan: {
+					type: Sequelize.TEXT,
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,
@@ -45,3 +51,4 @@ module.exports = {
 		await queryInterface.dropTable("Reservasis");
 	},
 };
+

@@ -14,8 +14,8 @@ module.exports = {
 				nama_pelanggan: {
 					type: Sequelize.STRING,
 				},
-				id_meja: {
-					type: Sequelize.INTEGER,
+				tipe_payment: {
+					type: Sequelize.ENUM("Cash", "Transfer"),
 				},
 				code_payment: {
 					type: Sequelize.STRING,

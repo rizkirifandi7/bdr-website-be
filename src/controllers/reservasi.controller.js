@@ -47,16 +47,22 @@ const getReservasiById = async (req, res) => {
 
 const createReservasi = async (req, res) => {
 	try {
-		const { nama_pelanggan, kontak, tanggal_reservasi, jumlah_orang } =
-			req.body;
-
-			console.log(req.body);
+		const {
+			nama_pelanggan,
+			kontak,
+			tanggal_reservasi,
+			jumlah_orang,
+			catatan,
+			ruangan,
+		} = req.body;
 
 		const reservasi = await Reservasi.create({
 			nama_pelanggan,
 			kontak,
 			tanggal_reservasi,
 			jumlah_orang,
+			catatan,
+			ruangan,
 		});
 
 		res.status(201).json({
@@ -75,8 +81,14 @@ const createReservasi = async (req, res) => {
 const updateReservasi = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { nama_pelanggan, kontak, tanggal_reservasi, jumlah_orang } =
-			req.body;
+		const {
+			nama_pelanggan,
+			kontak,
+			tanggal_reservasi,
+			jumlah_orang,
+			catatan,
+			ruangan,
+		} = req.body;
 
 		const reservasi = await Reservasi.findOne({
 			where: { id },
@@ -94,6 +106,8 @@ const updateReservasi = async (req, res) => {
 			kontak,
 			tanggal_reservasi,
 			jumlah_orang,
+			catatan,
+			ruangan,
 		});
 
 		res.status(200).json({

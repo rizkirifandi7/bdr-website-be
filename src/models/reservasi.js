@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 			kontak: DataTypes.STRING,
 			tanggal_reservasi: DataTypes.DATE,
 			jumlah_orang: DataTypes.INTEGER,
+			ruangan: DataTypes.STRING,
+			catatan: DataTypes.TEXT,
 		},
 		{
 			sequelize,
@@ -25,3 +27,4 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	return Reservasi;
 };
+

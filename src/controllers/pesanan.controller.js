@@ -191,7 +191,7 @@ const createSnapToken = async (req, res) => {
 const createPesanan = async (req, res) => {
 	try {
 		const {
-			id_meja,
+			tipe_payment,
 			mode,
 			total,
 			items,
@@ -204,7 +204,7 @@ const createPesanan = async (req, res) => {
 		const pesanan = await Pesanan.create({
 			nama_pelanggan,
 			code_payment,
-			id_meja,
+			tipe_payment,
 			mode,
 			total,
 			order_time: Date.now(),
