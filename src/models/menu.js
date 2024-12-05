@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 			harga: DataTypes.INTEGER,
 			deskripsi: DataTypes.TEXT,
 			gambar: DataTypes.STRING,
+			ispopuler: DataTypes.ENUM("populer", "tidak populer"),
 		},
 		{
 			sequelize,
@@ -34,4 +35,3 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	return Menu;
 };
-

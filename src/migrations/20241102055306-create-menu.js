@@ -26,6 +26,9 @@ module.exports = {
 				gambar: {
 					type: Sequelize.STRING,
 				},
+				ispopuler: {
+					type: Sequelize.ENUM("populer", "tidak populer"),
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,
@@ -48,4 +51,3 @@ module.exports = {
 		await queryInterface.dropTable("Menus");
 	},
 };
-

@@ -103,7 +103,7 @@ const addMenuToOrder = async (req, res) => {
 
 const createMenu = async (req, res) => {
 	try {
-		const { nama_menu, harga, nama_kategori, deskripsi } = req.body;
+		const { nama_menu, harga, nama_kategori, deskripsi, ispopuler } = req.body;
 		const gambar = req.file;
 
 		let kategori = await Kategori.findOne({
@@ -120,6 +120,7 @@ const createMenu = async (req, res) => {
 			id_kategori: kategori.id,
 			deskripsi,
 			gambar: gambar.originalname,
+			ispopuler,
 		});
 
 		const uploadPath = path.join(
@@ -148,7 +149,7 @@ const createMenu = async (req, res) => {
 const updateMenu = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { nama_menu, harga, nama_kategori, deskripsi } = req.body;
+		const { nama_menu, harga, nama_kategori, deskripsi, ispopuler } = req.body;
 		const gambar = req.file;
 
 		const menu = await Menu.findByPk(id);
@@ -177,6 +178,7 @@ const updateMenu = async (req, res) => {
 			id_kategori: kategori.id,
 			deskripsi,
 			gambar: gambar ? gambar.originalname : menu.gambar,
+			ispopuler,
 		});
 
 		if (gambar) {
