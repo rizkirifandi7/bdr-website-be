@@ -89,6 +89,7 @@ const Login = async (req, res) => {
 			status: true,
 			message: "Login berhasil",
 			data: { token },
+			role: user.role,
 		});
 	} catch (error) {
 		res.status(500).json({

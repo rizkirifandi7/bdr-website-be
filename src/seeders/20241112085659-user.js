@@ -21,6 +21,14 @@ module.exports = {
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			},
+			{
+				nama: "adminhome",
+				email: "adminhome@test.com",
+				password: bcrypt.hashSync("adminhome", 10),
+				role: "adminhome",
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
 		]);
 	},
 	down: (queryInterface, Sequelize) => {
