@@ -1,6 +1,7 @@
 const { Menu, Item_Pesanan, Kategori } = require("../models");
 const fs = require("fs");
 const path = require("path");
+const cloudinary = require("../middleware/cloudinaryConfig");
 
 const getMenu = async (req, res) => {
 	try {
@@ -114,21 +115,20 @@ const createMenu = async (req, res) => {
 			kategori = await Kategori.create({ nama_kategori });
 		}
 
+		const uploadResult = await cloudinary.uploader.upload(gambar.path, {
+			folder: "menu_images",
+		});
+
 		const menu = await Menu.create({
 			nama_menu,
 			harga,
 			id_kategori: kategori.id,
 			deskripsi,
-			gambar: gambar.originalname,
+			gambar: uploadResult.secure_url,
 			ispopuler,
 		});
 
-		const uploadPath = path.join(
-			__dirname,
-			"../../uploads",
-			gambar.originalname
-		);
-		fs.renameSync(gambar.path, uploadPath);
+		fs.unlinkSync(gambar.path);
 
 		res.status(201).json({
 			status: true,
@@ -145,7 +145,6 @@ const createMenu = async (req, res) => {
 		});
 	}
 };
-
 const updateMenu = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -154,7 +153,7 @@ const updateMenu = async (req, res) => {
 
 		const menu = await Menu.findByPk(id);
 		if (!menu) {
-			return res.json({ message: "Menu not found" }).status(404);
+			return res.status(404).json({ message: "Menu not found" });
 		}
 
 		let kategori = await Kategori.findOne({
@@ -162,14 +161,19 @@ const updateMenu = async (req, res) => {
 		});
 
 		if (!kategori) {
-			return res.json({ message: "Kategori not found" }).status(404);
+			return res.status(404).json({ message: "Kategori not found" });
 		}
 
-		if (gambar && menu.gambar) {
-			const oldFilePath = path.join(__dirname, "../../uploads", menu.gambar);
-			if (fs.existsSync(oldFilePath)) {
-				fs.unlinkSync(oldFilePath);
+		let uploadResult;
+		if (gambar) {
+			if (menu.gambar) {
+				const oldPublicId = menu.gambar.split("/").pop().split(".")[0];
+				await cloudinary.uploader.destroy(`menu_images/${oldPublicId}`);
 			}
+			uploadResult = await cloudinary.uploader.upload(gambar.path, {
+				folder: "menu_images",
+			});
+			fs.unlinkSync(gambar.path);
 		}
 
 		await menu.update({
@@ -177,27 +181,24 @@ const updateMenu = async (req, res) => {
 			harga,
 			id_kategori: kategori.id,
 			deskripsi,
-			gambar: gambar ? gambar.originalname : menu.gambar,
+			gambar: gambar ? uploadResult.secure_url : menu.gambar,
 			ispopuler,
 		});
-
-		if (gambar) {
-			const uploadPath = path.join(
-				__dirname,
-				"../../uploads",
-				gambar.originalname
-			);
-			fs.renameSync(gambar.path, uploadPath);
-		}
 
 		const data = {
 			status: true,
 			data: menu,
 			message: "Successfully updated menu",
 		};
-		return res.json(data).status(200);
+		return res.status(200).json(data);
 	} catch (error) {
-		return res.json(error).status(500);
+		if (req.file) {
+			fs.unlinkSync(req.file.path);
+		}
+		return res.status(500).json({
+			message: error.message,
+			status: false,
+		});
 	}
 };
 
@@ -221,9 +222,9 @@ const deleteMenu = async (req, res) => {
 		});
 
 		if (result) {
-			const filePath = path.join(__dirname, "../../uploads", menu.gambar);
-			if (fs.existsSync(filePath)) {
-				fs.unlinkSync(filePath);
+			if (menu.gambar) {
+				const oldPublicId = menu.gambar.split("/").pop().split(".")[0];
+				await cloudinary.uploader.destroy(`menu_images/${oldPublicId}`);
 			}
 
 			res.status(200).json({

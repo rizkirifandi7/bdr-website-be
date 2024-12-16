@@ -2,7 +2,6 @@ const { Pesanan, Item_Pesanan, Menu, Kategori } = require("../models");
 const Midtrans = require("midtrans-client");
 
 const dotenv = require("dotenv");
-const crypto = require("crypto");
 dotenv.config();
 
 let snap = new Midtrans.Snap({
