@@ -9,6 +9,8 @@ const itemPesananRoute = require("./item_pesanan.route");
 const pesananRoute = require("./pesanan.route");
 const feedbackRoute = require("./feedback.route");
 const orderRoute = require("./order.route");
+const bahanBakuRoute = require("./bahan-baku.route");
+const bahanBakuPesananRoute = require("./order-bahan-pesanan.routes");
 
 router.use("/auth", authRoute);
 router.use("/menu", menuRoute);
@@ -19,5 +21,7 @@ router.use("/item_pesanan", itemPesananRoute);
 router.use("/pesanan", pesananRoute);
 router.use("/feedback", feedbackRoute);
 router.use("/order", orderRoute);
+router.use("/bahan-baku", bahanBakuRoute);
+router.use("/bahan-baku-pesanan", bahanBakuPesananRoute);
 
 module.exports = router;

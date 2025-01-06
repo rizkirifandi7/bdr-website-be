@@ -105,6 +105,7 @@ const createMenu = async (req, res) => {
 	try {
 		const { nama_menu, harga, nama_kategori, deskripsi, ispopuler } = req.body;
 		const gambar = req.file;
+		const user = req.user;
 
 		let kategori = await Kategori.findOne({
 			where: { nama_kategori },
@@ -119,6 +120,7 @@ const createMenu = async (req, res) => {
 		});
 
 		const menu = await Menu.create({
+			id_user: user.id,
 			nama_menu,
 			harga,
 			id_kategori: kategori.id,

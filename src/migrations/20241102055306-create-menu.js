@@ -11,6 +11,9 @@ module.exports = {
 					primaryKey: true,
 					type: Sequelize.INTEGER,
 				},
+				id_user: {
+					type: Sequelize.INTEGER,
+				},
 				id_kategori: {
 					type: Sequelize.INTEGER,
 				},

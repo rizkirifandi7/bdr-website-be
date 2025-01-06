@@ -11,12 +11,13 @@ const {
 } = require("../controllers/menu.controller");
 const upload = require("../middleware/multerConfig");
 const path = require("path");
+const { verifyAdminOrPegawai } = require("../middleware/verifyTokens");
 
 router.get("/", getMenu);
 router.get("/:id", getMenuById);
 router.post("/:id/items", addMenuToOrder);
-router.post("/", upload.single("gambar"), createMenu);
-router.put("/:id", upload.single("gambar"), updateMenu);
+router.post("/", verifyAdminOrPegawai, upload.single("gambar"), createMenu);
+router.put("/:id", verifyAdminOrPegawai, upload.single("gambar"), updateMenu);
 router.delete("/:id", deleteMenu);
 router.get("/view/:filename", (req, res) => {
 	res.sendFile(path.join(__dirname, "../../", "uploads", req.params.filename));

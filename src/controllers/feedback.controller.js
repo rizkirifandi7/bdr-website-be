@@ -1,29 +1,13 @@
-const { Feedback, Pesanan } = require("../models");
+const { Feedback } = require("../models");
 
 const getFeedback = async (req, res) => {
 	try {
-		const feedback = await Feedback.findAll({
-			include: [
-				{
-					model: Pesanan,
-					as: "pesanan",
-					attributes: ["nama_pelanggan"],
-				},
-			],
-		});
-
-		const feedbackWithCustomerName = feedback.map((fb) => {
-			const { pesanan, ...feedbackData } = fb.toJSON();
-			return {
-				...feedbackData,
-				nama_pelanggan: pesanan ? pesanan.nama_pelanggan : null,
-			};
-		});
+		const feedback = await Feedback.findAll();
 
 		res.status(200).json({
 			status: true,
 			message: "Data feedback berhasil didapatkan",
-			data: feedbackWithCustomerName,
+			data: feedback,
 		});
 	} catch (error) {
 		res.status(500).json({
@@ -63,12 +47,24 @@ const getFeedbackById = async (req, res) => {
 
 const createFeedback = async (req, res) => {
 	try {
-		const { id_pesanan, deskripsi, rating } = req.body;
+		const {
+			nama,
+			nomor_hp,
+			saran,
+			kritik,
+			rating_menu,
+			rating_restoran,
+			rating_pelayanan,
+		} = req.body;
 
 		const feedback = await Feedback.create({
-			id_pesanan,
-			deskripsi,
-			rating,
+			nama,
+			nomor_hp,
+			saran,
+			kritik,
+			rating_menu,
+			rating_restoran,
+			rating_pelayanan,
 		});
 
 		res.status(201).json({
@@ -87,7 +83,15 @@ const createFeedback = async (req, res) => {
 const updateFeedback = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { id_pesanan, deskripsi, rating } = req.body;
+		const {
+			nama,
+			nomor_hp,
+			saran,
+			kritik,
+			rating_menu,
+			rating_restoran,
+			rating_pelayanan,
+		} = req.body;
 
 		const feedback = await Feedback.findOne({
 			where: { id },
@@ -101,9 +105,13 @@ const updateFeedback = async (req, res) => {
 		}
 
 		await feedback.update({
-			id_pesanan,
-			deskripsi,
-			rating,
+			nama,
+			nomor_hp,
+			saran,
+			kritik,
+			rating_menu,
+			rating_restoran,
+			rating_pelayanan,
 		});
 
 		res.status(200).json({

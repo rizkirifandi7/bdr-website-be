@@ -11,13 +11,25 @@ module.exports = {
 					primaryKey: true,
 					type: Sequelize.INTEGER,
 				},
-				id_pesanan: {
-					type: Sequelize.INTEGER,
+				nama: {
+					type: Sequelize.STRING,
 				},
-				deskripsi: {
+				nomor_hp: {
+					type: Sequelize.STRING,
+				},
+				kritik: {
 					type: Sequelize.TEXT,
 				},
-				rating: {
+				saran: {
+					type: Sequelize.TEXT,
+				},
+				rating_menu: {
+					type: Sequelize.INTEGER,
+				},
+				rating_pelayanan: {
+					type: Sequelize.INTEGER,
+				},
+				rating_restoran: {
 					type: Sequelize.INTEGER,
 				},
 				createdAt: {
@@ -42,3 +54,4 @@ module.exports = {
 		await queryInterface.dropTable("Feedbacks");
 	},
 };
+

@@ -17,10 +17,16 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: "id_menu",
 				as: "item_pesanan",
 			});
+
+			Menu.belongsTo(models.User, {
+				foreignKey: "id_user",
+				as: "user",
+			});
 		}
 	}
 	Menu.init(
 		{
+			id_user: DataTypes.INTEGER,
 			id_kategori: DataTypes.INTEGER,
 			nama_menu: DataTypes.STRING,
 			harga: DataTypes.INTEGER,
