@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 			nama_pelanggan: DataTypes.STRING,
 			kontak: DataTypes.STRING,
 			tanggal_reservasi: DataTypes.DATE,
-			jumlah_orang: DataTypes.INTEGER,
+			jumlah_orang: DataTypes.STRING,
 			ruangan: DataTypes.STRING,
 			catatan: DataTypes.TEXT,
 		},

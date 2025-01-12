@@ -11,6 +11,9 @@ module.exports = {
 					primaryKey: true,
 					type: Sequelize.INTEGER,
 				},
+				id_user: {
+					type: Sequelize.INTEGER,
+				},
 				nama_pelanggan: {
 					type: Sequelize.STRING,
 				},
@@ -57,4 +60,3 @@ module.exports = {
 		await queryInterface.dropTable("Pesanans");
 	},
 };
-

@@ -18,6 +18,9 @@ module.exports = {
 			status: {
 				type: Sequelize.STRING,
 			},
+			feedback: {
+				type: Sequelize.TEXT,
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,

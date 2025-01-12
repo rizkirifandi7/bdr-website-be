@@ -16,11 +16,13 @@ app.use(
 	})
 );
 
-app.use(express.json());
-app.use("/uploads", express.static("uploads"));
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/api", router);
 
 const PORT = 8000;

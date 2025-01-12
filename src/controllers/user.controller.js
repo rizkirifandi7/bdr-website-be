@@ -1,9 +1,60 @@
-const { User } = require("../models");
+const { User, Pesanan, Item_Pesanan, Menu, Kategori } = require("../models");
 const bcrypt = require("bcrypt");
 
 const getUsers = async (req, res) => {
 	try {
 		const users = await User.findAll();
+
+		res.status(200).json({
+			status: true,
+			message: "Data user berhasil didapatkan",
+			data: users,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+			status: false,
+		});
+	}
+};
+
+const getUserDataPenjualan = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const users = await User.findAll({
+			where: { id },
+			attributes: {
+				exclude: ["password", "createdAt", "updatedAt", "role"],
+			},
+
+			include: [
+				{
+					model: Pesanan,
+					as: "pesanan",
+					attributes: ["id_user", "total", "status"],
+					include: [
+						{
+							model: Item_Pesanan,
+							as: "item_pesanan",
+							attributes: ["id", "jumlah", "subtotal", "id_menu", "id_pesanan"],
+							include: [
+								{
+									model: Menu,
+									as: "menu",
+									include: [
+										{
+											model: Kategori,
+											as: "kategori",
+											attributes: ["nama_kategori"],
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		});
 
 		res.status(200).json({
 			status: true,
@@ -140,6 +191,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
 	getUsers,
 	getUserById,
+	getUserDataPenjualan,
 	createUser,
 	updateUser,
 	deleteUser,

@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			id_user: DataTypes.INTEGER,
 			total_harga: DataTypes.INTEGER,
-			status: DataTypes.ENUM("pending", "selesai"),
+			status: DataTypes.STRING,
+			feedback: DataTypes.TEXT,
 		},
 		{
 			sequelize,

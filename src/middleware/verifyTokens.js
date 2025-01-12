@@ -23,6 +23,27 @@ const verifyAdmin = (req, res, next) => {
 	}
 };
 
+const verifyMitra = (req, res, next) => {
+	const authHeader = req.headers.authorization;
+	if (!authHeader) return res.status(401).json({ error: "Access denied" });
+
+	const token = authHeader.split(" ")[1];
+	if (!token) return res.status(401).json({ error: "Access denied" });
+
+	try {
+		const verified = jwt.verify(token, process.env.JWT_SECRET);
+		req.user = verified;
+
+		if (req.user.role !== "admin" && req.user.role !== "mitra") {
+			return res.status(403).json({ error: "Access forbidden: Admins only" });
+		}
+
+		next();
+	} catch (error) {
+		res.status(400).json({ error: "Invalid token" });
+	}
+};
+
 const verifyPegawai = (req, res, next) => {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) return res.status(401).json({ error: "Access denied " });
@@ -34,7 +55,7 @@ const verifyPegawai = (req, res, next) => {
 		const verified = jwt.verify(token, process.env.JWT_SECRET);
 		req.user = verified;
 
-		if (req.user.role !== "pegawai") {
+		if (req.user.role !== "admin" && req.user.role !== "pegawai") {
 			return res.status(403).json({ error: "Access forbidden: Pegawai only" });
 		}
 
@@ -45,19 +66,25 @@ const verifyPegawai = (req, res, next) => {
 	}
 };
 
-const verifyAdminOrPegawai = (req, res, next) => {
+const verifyAllUser = (req, res, next) => {
 	const authHeader = req.headers.authorization;
-	if (!authHeader) return res.status(401).json({ error: "Access denied" });
+	if (!authHeader)
+		return res.status(401).json({ error: "Access denied tidak ada token" });
 
 	const token = authHeader.split(" ")[1];
-
-	if (!token) return res.status(401).json({ error: "Access denied" });
+	if (!token)
+		return res.status(401).json({ error: "Access denied token tidak ada" });
 
 	try {
 		const verified = jwt.verify(token, process.env.JWT_SECRET);
 		req.user = verified;
 
-		if (req.user.role !== "admin" && req.user.role !== "pegawai") {
+		if (
+			req.user.role !== "admin" &&
+			req.user.role !== "pegawai" &&
+			req.user.role !== "adminhome" &&
+			req.user.role !== "mitra"
+		) {
 			return res
 				.status(403)
 				.json({ error: "Access forbidden: Admins or Pegawai only" });
@@ -69,4 +96,9 @@ const verifyAdminOrPegawai = (req, res, next) => {
 	}
 };
 
-module.exports = { verifyAdmin, verifyPegawai, verifyAdminOrPegawai };
+module.exports = {
+	verifyAdmin,
+	verifyPegawai,
+	verifyAllUser,
+	verifyMitra,
+};

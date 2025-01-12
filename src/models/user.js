@@ -17,6 +17,16 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: "id_user",
 				as: "order_bahan",
 			});
+
+			User.hasMany(models.Pesanan, {
+				foreignKey: "id_user",
+				as: "pesanan",
+			});
+
+			User.hasMany(models.Kategori, {
+				foreignKey: "id_user",
+				as: "kategori",
+			});
 		}
 	}
 	User.init(
@@ -24,7 +34,8 @@ module.exports = (sequelize, DataTypes) => {
 			nama: DataTypes.STRING,
 			email: DataTypes.STRING,
 			password: DataTypes.STRING,
-			role: DataTypes.ENUM("admin", "pegawai", "adminhome"),
+			role: DataTypes.ENUM("admin", "mitra", "pegawai", "adminhome"),
+			pin: DataTypes.STRING,
 		},
 		{
 			sequelize,

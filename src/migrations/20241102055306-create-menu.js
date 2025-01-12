@@ -30,7 +30,7 @@ module.exports = {
 					type: Sequelize.STRING,
 				},
 				ispopuler: {
-					type: Sequelize.ENUM("populer", "tidak populer"),
+					type: Sequelize.ENUM("populer", "tidak populer", "mitra"),
 				},
 				createdAt: {
 					allowNull: false,

@@ -12,10 +12,16 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: "id_kategori",
 				as: "menu",
 			});
+
+			Kategori.belongsTo(models.User, {
+				foreignKey: "id_user",
+				as: "user",
+			});
 		}
 	}
 	Kategori.init(
 		{
+			id_user: DataTypes.INTEGER,
 			nama_kategori: DataTypes.STRING,
 		},
 		{

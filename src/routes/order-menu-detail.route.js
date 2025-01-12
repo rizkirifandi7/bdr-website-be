@@ -6,7 +6,7 @@ const {
 	createItemPesanan,
 	updateItemPesanan,
 	deleteItemPesanan,
-} = require("../controllers/itempesanan.controller");
+} = require("../controllers/order-menu-detail.controller");
 
 router.get("/", getItemPesanan);
 router.get("/:id", getItemPesananById);

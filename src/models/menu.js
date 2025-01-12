@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 			harga: DataTypes.INTEGER,
 			deskripsi: DataTypes.TEXT,
 			gambar: DataTypes.STRING,
-			ispopuler: DataTypes.ENUM("populer", "tidak populer"),
+			ispopuler: DataTypes.ENUM("populer", "tidak populer", "mitra"),
 		},
 		{
 			sequelize,

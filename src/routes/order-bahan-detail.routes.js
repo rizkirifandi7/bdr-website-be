@@ -6,7 +6,7 @@ const {
 	createOrderBahanDetail,
 	updateOrderBahanDetail,
 	deleteOrderBahanDetail,
-} = require("../controllers/bahan-baku-pesanan.controller");
+} = require("../controllers/order-bahan-detail.controller");
 
 router.get("/", getOrderBahanDetail);
 router.get("/:id", getOrderBahanDetailById);

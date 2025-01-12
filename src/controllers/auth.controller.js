@@ -4,9 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const Register = async (req, res) => {
 	try {
-		const { nama, email, password, retypePassword, role } = req.body;
-
-		console.log("data register", nama);
+		const { nama, email, password, retypePassword, role, pin } = req.body;
 
 		if (!password) {
 			return res.status(400).json({
@@ -40,6 +38,7 @@ const Register = async (req, res) => {
 			email,
 			password: hashedPassword,
 			role,
+			pin: pin ? bcrypt.hashSync(pin, 10) : "-",
 		});
 
 		res.status(201).json({

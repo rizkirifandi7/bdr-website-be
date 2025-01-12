@@ -17,6 +17,46 @@ const getKategori = async (req, res) => {
 	}
 };
 
+const getKategoriByUser = async (req, res) => {
+	try {
+		const user = req.user;
+		const kategori = await Kategori.findAll({
+			where: { id_user: user.id },
+		});
+
+		res.status(200).json({
+			status: true,
+			message: "Data kategori berhasil didapatkan",
+			data: kategori,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+			status: false,
+		});
+	}
+};
+
+const getKategoriByUserId = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const kategori = await Kategori.findAll({
+			where: { id_user: id },
+		});
+
+		res.status(200).json({
+			status: true,
+			message: "Data kategori berhasil didapatkan",
+			data: kategori,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+			status: false,
+		});
+	}
+};
+
 const getKategoriById = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -47,11 +87,11 @@ const getKategoriById = async (req, res) => {
 
 const createKategori = async (req, res) => {
 	try {
+		const user = req.user;
 		const { nama_kategori } = req.body;
 
-		console.log("data :", req.body);
-
 		const kategori = await Kategori.create({
+			id_user: user.id,
 			nama_kategori,
 		});
 
@@ -134,8 +174,10 @@ const deleteKategori = async (req, res) => {
 
 module.exports = {
 	getKategori,
+	getKategoriByUserId,
 	getKategoriById,
 	createKategori,
 	updateKategori,
 	deleteKategori,
+	getKategoriByUser,
 };

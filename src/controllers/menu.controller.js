@@ -31,6 +31,81 @@ const getMenu = async (req, res) => {
 	}
 };
 
+const getAllMenyByUserId = async (req, res) => {
+	try {
+		const user = req.user;
+
+		const menu = await Menu.findAll({
+			where: { id_user: user.id },
+
+			include: {
+				association: "kategori",
+				attributes: ["nama_kategori"],
+			},
+		});
+
+		const modifiedMenu = menu.map((item) => {
+			return {
+				...item.dataValues,
+				kategori: item.kategori.nama_kategori,
+			};
+		});
+
+		res.status(200).json({
+			status: true,
+			message: "Data menu berhasil didapatkan",
+			data: modifiedMenu,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+			status: false,
+		});
+	}
+};
+
+const getAllMenyByIdUser = async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const menu = await Menu.findAll({
+			where: { id_user: id },
+			include: {
+				association: "kategori",
+				attributes: ["nama_kategori"],
+			},
+		});
+
+		// Check if menu exists and has items
+		if (!menu || menu.length === 0) {
+			return res.status(404).json({
+				status: false,
+				message: "No menu items found for this user",
+				data: [],
+			});
+		}
+
+		const modifiedMenu = menu.map((item) => {
+			// Add null check for kategori
+			return {
+				...item.dataValues,
+				kategori: item.kategori?.nama_kategori || null,
+			};
+		});
+
+		res.status(200).json({
+			status: true,
+			message: "Data menu berhasil didapatkan",
+			data: modifiedMenu,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message,
+			status: false,
+		});
+	}
+};
+
 const getMenuById = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -50,15 +125,10 @@ const getMenuById = async (req, res) => {
 			});
 		}
 
-		const menuData = {
-			...menu.dataValues,
-			kategori: menu.kategori.nama_kategori,
-		};
-
 		res.status(200).json({
 			status: true,
 			message: "Data menu berhasil didapatkan",
-			data: menuData,
+			data: menu,
 		});
 	} catch (error) {
 		res.status(500).json({
@@ -103,9 +173,9 @@ const addMenuToOrder = async (req, res) => {
 
 const createMenu = async (req, res) => {
 	try {
+		const user = req.user;
 		const { nama_menu, harga, nama_kategori, deskripsi, ispopuler } = req.body;
 		const gambar = req.file;
-		const user = req.user;
 
 		let kategori = await Kategori.findOne({
 			where: { nama_kategori },
@@ -146,6 +216,7 @@ const createMenu = async (req, res) => {
 		});
 	}
 };
+
 const updateMenu = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -250,6 +321,8 @@ const deleteMenu = async (req, res) => {
 module.exports = {
 	getMenu,
 	getMenuById,
+	getAllMenyByUserId,
+	getAllMenyByIdUser,
 	createMenu,
 	updateMenu,
 	deleteMenu,

@@ -1,26 +1,26 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 
 const {
 	getMenu,
 	getMenuById,
+	getAllMenyByUserId,
+	getAllMenyByIdUser,
 	createMenu,
 	updateMenu,
 	deleteMenu,
 	addMenuToOrder,
 } = require("../controllers/menu.controller");
 const upload = require("../middleware/multerConfig");
-const path = require("path");
-const { verifyAdminOrPegawai } = require("../middleware/verifyTokens");
+const { verifyAllUser } = require("../middleware/verifyTokens");
+
+router.get("/user", verifyAllUser, getAllMenyByUserId);
+router.post("/", verifyAllUser, upload.single("gambar"), createMenu);
+router.put("/:id", upload.single("gambar"), updateMenu);
 
 router.get("/", getMenu);
 router.get("/:id", getMenuById);
+router.get("/user/:id", getAllMenyByIdUser);
 router.post("/:id/items", addMenuToOrder);
-router.post("/", verifyAdminOrPegawai, upload.single("gambar"), createMenu);
-router.put("/:id", verifyAdminOrPegawai, upload.single("gambar"), updateMenu);
 router.delete("/:id", deleteMenu);
-router.get("/view/:filename", (req, res) => {
-	res.sendFile(path.join(__dirname, "../../", "uploads", req.params.filename));
-});
 
 module.exports = router;

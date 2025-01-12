@@ -21,7 +21,7 @@ module.exports = {
 					type: Sequelize.DATE,
 				},
 				jumlah_orang: {
-					type: Sequelize.INTEGER,
+					type: Sequelize.STRING,
 				},
 				ruangan: {
 					type: Sequelize.STRING,
