@@ -196,7 +196,7 @@ const createMenu = async (req, res) => {
 			id_kategori: kategori.id,
 			deskripsi,
 			gambar: uploadResult.secure_url,
-			ispopuler,
+			ispopuler: ispopuler || "-",
 		});
 
 		fs.unlinkSync(gambar.path);
