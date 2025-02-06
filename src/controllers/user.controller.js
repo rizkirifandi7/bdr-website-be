@@ -126,8 +126,7 @@ const updateUser = async (req, res) => {
 		const { id } = req.params;
 		const { nama, email, password, role } = req.body;
 
-		console.log("data", req.body);
-
+		// Cari user berdasarkan ID
 		const user = await User.findOne({
 			where: { id },
 		});
@@ -139,11 +138,15 @@ const updateUser = async (req, res) => {
 			});
 		}
 
-		user.nama = nama;
-		user.email = email;
-		user.password = bcrypt.hashSync(password, 10);
-		user.role = role;
+		user.nama = nama || user.nama;
+		user.email = email || user.email;
+		user.role = role || user.role;
 
+		if (password) {
+			user.password = bcrypt.hashSync(password, 10);
+		}
+
+		// Simpan perubahan
 		await user.save();
 
 		res.status(200).json({
